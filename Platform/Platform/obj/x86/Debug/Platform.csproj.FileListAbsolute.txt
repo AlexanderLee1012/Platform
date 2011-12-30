@@ -1,0 +1,28 @@
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Platform.exe
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Platform.pdb
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\obj\x86\Debug\Platform.exe
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\obj\x86\Debug\Platform.pdb
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\Sticks.xnb
+c:\users\alexander\documents\visual studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\Stick.xnb
+C:\Users\Alexander\Documents\Visual Studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\StickDuck.xnb
+C:\Users\Alexander\Documents\Visual Studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\StickJumpDown.xnb
+C:\Users\Alexander\Documents\Visual Studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\StickJumpUp.xnb
+C:\Users\Alexander\Documents\Visual Studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\brick.xnb
+C:\Users\Alexander\Documents\Visual Studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\blankLevel.xnb
+C:\Users\Alexander\Documents\Visual Studio 2010\Projects\Platform\Platform\Platform\bin\x86\Debug\Content\lvl1.txt
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\Sticks.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\Stick.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickDuck.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickJumpDown.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickJumpUp.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\brick.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\blankLevel.xnb
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\lvl1.txt
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Platform.exe
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Platform.pdb
+C:\Users\Alexander\Platform\Platform\Platform\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Alexander\Platform\Platform\Platform\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Alexander\Platform\Platform\Platform\obj\x86\Debug\Platform.exe
+C:\Users\Alexander\Platform\Platform\Platform\obj\x86\Debug\Platform.pdb
