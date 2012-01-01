@@ -11,7 +11,7 @@ namespace Platform
     class Level
     {
         Texture2D brick;
-        private int brickSize = 32;
+        private int brickSize = 20;
         private Color[] singleBrick;
         private Color[] beginBrick;
         private Color[] contBrick;
@@ -56,7 +56,7 @@ namespace Platform
             levelFile = File.ReadAllLines(FileName);
             collisionCheck = new bool[levelFile[0].Length,levelFile.Length];
 
-            int x, y, lineY, valueX;// 32 by 32
+            int x, y, lineY, valueX;// 20 by 20
             x = 0;
             y = 0;
             lineY = 0;
@@ -97,7 +97,7 @@ namespace Platform
                     {
                         collisionCheck[valueX, lineY] = true;
                         blank.SetData<Color>(0, new Rectangle(x, y, brickSize, brickSize), botDoor, 0, contBrick.Length);
-                        openDoor.LoadSprite(brick, doorX + 16, doorY + 32, 6, brickSize, brickSize * 2, 10);
+                        openDoor.LoadSprite(brick, 0, 0, doorX + 16, doorY + 32, 6, brickSize, brickSize * 2, 10);
                     }
 
 
@@ -115,7 +115,7 @@ namespace Platform
         {
             int hashedX = x / brickSize;
             int hashedY = y / brickSize;
-            return collisionCheck[hashedX,hashedY];//need to convert 800 by 480 to scale with 25 by 15
+            return collisionCheck[hashedX,hashedY];//need to convert 800 by 480 to scale with 40 by 24
         }
 
         void setBlank(int x, int y)

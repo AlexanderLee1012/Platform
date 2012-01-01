@@ -20,17 +20,17 @@ namespace Platform
         private int framesPerSec;
         private bool faceRight;
 
-        public void LoadSprite(Texture2D _texture2D, int _posX, int _posY, int _numFrames, int _frameWidth, int _frameHeight, int _framesPerSec)
+        public void LoadSprite(Texture2D _texture2D, int _posX, int _posY, int _frameX, int _frameY, int _numFrames, int _frameWidth, int _frameHeight, int _framesPerSec)
         {
             sticks = _texture2D;
             rectangles = new List<Rectangle>();
 
-            rectangles.Add(new Rectangle(0, 0, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(_frameWidth, 0, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(2 * _frameWidth, 0, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(3 * _frameWidth, 0, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(4 * _frameWidth, 0, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(5 * _frameWidth, 0, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameX, _frameY, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameX + _frameWidth, _frameY, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameX + 2 * _frameWidth, _frameY, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameX + 3 * _frameWidth, _frameY, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameX + 4 * _frameWidth, _frameY, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameX + 5 * _frameWidth, _frameY, _frameWidth, _frameHeight));
 
             frameCount = _numFrames;
             framesPerSec = _framesPerSec;

@@ -18,7 +18,7 @@ namespace Platform
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        float scale = 0.25f;
+        float scale = 0.39f;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -72,12 +72,12 @@ namespace Platform
             latestLevel = 0;
             jumpPeak = false;
             jumpAm = 0;
-            PlayerVector = new Vector2(90, 200);
+            PlayerVector = new Vector2(100, 110);
             faceRight = true;
             jump = 0;
-            PlayerOrigin = new Vector2(50, 100);
-            pHeight = (int)(scale * 200);
-            pWidth = (int)(scale * 100);
+            PlayerOrigin = new Vector2(25, 50);
+            pHeight = (int)(scale * 100);
+            pWidth = (int)(scale * 50);
             base.Initialize();
         }
 
@@ -92,7 +92,7 @@ namespace Platform
 
             spriteWalk.LoadSprite(Content.Load<Texture2D>("Sticks"), 
                 (int)PlayerVector.X, (int)PlayerVector.Y,
-                6, 100, 200, 15);
+                0, 0, 6, 50, 100, 15);
             duckTexture = Content.Load<Texture2D>("StickDuck");
             stand = Content.Load<Texture2D>("Stick");
             jumpUp = Content.Load<Texture2D>("StickJumpUp");
@@ -254,24 +254,24 @@ namespace Platform
             lvl.draw(spriteBatch);
 
             if (jump == 1 && faceRight)
-                spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
+                spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.None, 0.5f);
             else if (jump == 1 && !faceRight)
-                spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
+                spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.FlipHorizontally, 0.5f);
             else if (jump == 2 && faceRight)
-                spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
+                spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.None, 0.5f);
             else if (jump == 2 && !faceRight)
-                spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
+                spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.FlipHorizontally, 0.5f);
             else if (move)
                 spriteWalk.Draw(spriteBatch, scale);
             else if (duck)
-                spriteBatch.Draw(duckTexture, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
+                spriteBatch.Draw(duckTexture, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.None, 0.5f);                
             else
-                spriteBatch.Draw(stand, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
+                spriteBatch.Draw(stand, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.None, 0.5f);
 
             //lvl.openExit(spriteBatch, gameTime);
