@@ -236,7 +236,7 @@ namespace Platform
                 jumpAm = 0;
             }
 
-            spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, faceRight);
+            spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, false, faceRight);
 
             base.Update(gameTime);
         }
@@ -274,7 +274,7 @@ namespace Platform
                 spriteBatch.Draw(stand, PlayerVector, new Rectangle(0, 0, 100, 200), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.None, 0.5f);
 
-
+            //lvl.openExit(spriteBatch, gameTime);
             spriteBatch.End();
             base.Draw(gameTime);
         }

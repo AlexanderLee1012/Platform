@@ -25,12 +25,12 @@ namespace Platform
             sticks = _texture2D;
             rectangles = new List<Rectangle>();
 
-            rectangles.Add(new Rectangle(0, 0, 100, 200));
-            rectangles.Add(new Rectangle(100, 0, 100, 200));
-            rectangles.Add(new Rectangle(200, 0, 100, 200));
-            rectangles.Add(new Rectangle(300, 0, 100, 200));
-            rectangles.Add(new Rectangle(400, 0, 100, 200));
-            rectangles.Add(new Rectangle(500, 0, 100, 200));
+            rectangles.Add(new Rectangle(0, 0, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(_frameWidth, 0, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(2 * _frameWidth, 0, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(3 * _frameWidth, 0, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(4 * _frameWidth, 0, _frameWidth, _frameHeight));
+            rectangles.Add(new Rectangle(5 * _frameWidth, 0, _frameWidth, _frameHeight));
 
             frameCount = _numFrames;
             framesPerSec = _framesPerSec;
@@ -39,14 +39,22 @@ namespace Platform
             totalElapsed = 0;
             sticksOrigin = new Vector2(_frameWidth / 2, _frameHeight / 2);
             sticksPos = new Vector2(_posX, _posY);
+
         }
 
-        public void Update(GameTime _gameTime, int _posX, int _posY, bool _faceRight)
+        public void Update(GameTime _gameTime, int _posX, int _posY, bool once = false, bool _faceRight = false)
         {
             float elapsed = (float)_gameTime.ElapsedGameTime.TotalSeconds;
             totalElapsed += elapsed;
 
-            if (totalElapsed > timePerFrame)
+            if (totalElapsed > timePerFrame && once)
+            {
+                if (currentFrame < (frameCount - 1))
+                    currentFrame++;
+                totalElapsed -= timePerFrame;            
+            }
+
+            if (totalElapsed > timePerFrame && !once)
             {
                 currentFrame++;
                 currentFrame = currentFrame % frameCount;
