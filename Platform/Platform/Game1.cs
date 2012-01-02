@@ -101,7 +101,7 @@ namespace Platform
             brick = Content.Load<Texture2D>("brick");
             blankLevel = Content.Load <Texture2D>("blankLevel");
 
-            lvl = new Level(brick, blankLevel, GraphicsDevice);
+            lvl = new Level(brick, blankLevel, GraphicsDevice, spriteBatch);
             // TODO: use this.Content to load your game content here
         }
 
@@ -236,7 +236,7 @@ namespace Platform
                 jumpAm = 0;
             }
 
-            spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, false, faceRight);
+            spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, -1, faceRight);
 
             base.Update(gameTime);
         }
@@ -274,7 +274,8 @@ namespace Platform
                 spriteBatch.Draw(stand, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
                     PlayerOrigin, scale, SpriteEffects.None, 0.5f);
 
-            //lvl.openExit(spriteBatch, gameTime);
+            lvl.animateDestructBrick(gameTime);
+            lvl.openExit(gameTime);
             spriteBatch.End();
             base.Draw(gameTime);
         }
