@@ -42,8 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sticks.png">
-      <Name>Sticks</Name>
+    <Compile Include="StickAnimation.png">
+      <Name>StickAnimation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -91,6 +91,18 @@
   <ItemGroup>
     <None Include="lvl1.txt">
       <Name>lvl1</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lvl2.txt">
+      <Name>lvl2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lvl3.txt">
+      <Name>lvl3</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

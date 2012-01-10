@@ -18,13 +18,14 @@ namespace Platform
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        float scale = 0.39f;
+        float scale = 0.35f;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         KeyboardState keyboard;
         Vector2 PlayerVector;
         Vector2 PlayerOrigin;
+        Vector2 PlayerStart;
 
         //Environment Variables---------------------------------------------
         Texture2D brick;
@@ -45,19 +46,20 @@ namespace Platform
         bool faceRight;
         bool duck;
         bool jumpPeak;
+        bool playerDead;
         int jump;
         int pHeight;
         int pWidth;
-        //------------------------------------------------------------------
-
-
         private AnimatedSprite spriteWalk;
+        private AnimatedSprite spriteWin;
+        //------------------------------------------------------------------
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             spriteWalk = new AnimatedSprite();
+            spriteWin = new AnimatedSprite();
         }
 
         /// <summary>
@@ -71,6 +73,7 @@ namespace Platform
             currentLevel = 1;
             latestLevel = 0;
             jumpPeak = false;
+            playerDead = false;
             jumpAm = 0;
             PlayerVector = new Vector2(100, 110);
             faceRight = true;
@@ -90,9 +93,12 @@ namespace Platform
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            spriteWalk.LoadSprite(Content.Load<Texture2D>("Sticks"), 
+            spriteWalk.LoadSprite(Content.Load<Texture2D>("StickAnimation"), 
                 (int)PlayerVector.X, (int)PlayerVector.Y,
                 0, 0, 6, 50, 100, 15);
+            spriteWin.LoadSprite(Content.Load<Texture2D>("StickAnimation"),
+                (int)PlayerVector.X, (int)PlayerVector.Y,
+                0, 100, 6, 50, 100, 15);
             duckTexture = Content.Load<Texture2D>("StickDuck");
             stand = Content.Load<Texture2D>("Stick");
             jumpUp = Content.Load<Texture2D>("StickJumpUp");
@@ -116,11 +122,21 @@ namespace Platform
 
         private void loadLevel(int currentLevel)
         {
-            if (latestLevel == currentLevel)
+            if (latestLevel == currentLevel && !playerDead)
                 return;
+            else if (playerDead)
+            {
+                playerDead = false;
+                PlayerVector = PlayerStart;
+            }
             else
             {
-                lvl.loadCurrentLevel("C:\\Users\\Alexander\\Platform\\Platform\\PlatformContent\\lvl" + currentLevel + ".txt");
+                PlayerStart = new Vector2();
+                PlayerStart = lvl.loadCurrentLevel("C:\\Users\\Alexander\\Platform\\Platform\\PlatformContent\\lvl" + currentLevel + ".txt");
+                PlayerVector = PlayerStart;
+                spriteWin.LoadSprite(Content.Load<Texture2D>("StickAnimation"),
+                    (int)PlayerVector.X, (int)PlayerVector.Y,
+                    0, 100, 6, 50, 100, 15);
                 latestLevel = currentLevel;
             }
         }
@@ -181,62 +197,71 @@ namespace Platform
                 duck = true;
             }
 
-            //jumping logic
-            if (!jumpPeak && keyboard.IsKeyDown(Keys.Up)  && jump != 2
-                && !(jump == 0 && !collideSide((int)PlayerVector.X, (int)(PlayerVector.Y + delta), pHeight, pWidth, "bottom", lvl)) //used to check if the player tries to jump mid-air from a previous platform
-                && jumpPeak == false && !collideSide((int)PlayerVector.X, (int)(PlayerVector.Y - delta), pHeight, pWidth, "top", lvl))
+            if (!playerDead && !lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))
             {
-                jump = 1;
-                jumpAm += delta;
-                PlayerVector.Y -= delta;
-                if (jumpAm > 30 * delta)
-                    jumpPeak = true;
-            }
-            else if (jumpAm > 0 && !collideSide((int)PlayerVector.X, (int)(PlayerVector.Y + delta), pHeight, pWidth, "bottom", lvl))
-            {
-                jump = 2;
-                PlayerVector.Y += delta;
-                jumpAm -= delta;
-                if (jumpAm == 0)
+                //jumping logic
+                if (!jumpPeak && keyboard.IsKeyDown(Keys.Up) && jump != 2
+                    && !(jump == 0 && !collideSide((int)PlayerVector.X, (int)(PlayerVector.Y + delta), pHeight, pWidth, "bottom", lvl)) //used to check if the player tries to jump mid-air from a previous platform
+                    && jumpPeak == false && !collideSide((int)PlayerVector.X, (int)(PlayerVector.Y - delta), pHeight, pWidth, "top", lvl))
+                {
+                    jump = 1;
+                    jumpAm += delta;
+                    PlayerVector.Y -= delta;
+                    if (jumpAm > 30 * delta)
+                        jumpPeak = true;
+                }
+                else if (jumpAm > 0 && !collideSide((int)PlayerVector.X, (int)(PlayerVector.Y + delta), pHeight, pWidth, "bottom", lvl))
+                {
+                    jump = 2;
+                    PlayerVector.Y += delta;
+                    jumpAm -= delta;
+                    if (jumpAm == 0)
+                        jumpPeak = false;
+                }
+                else
+                    jump = 0;
+
+                // TODO
+                if (!collideSide((int)PlayerVector.X, (int)(PlayerVector.Y + delta), pHeight, pWidth, "bottom", lvl) && jump == 0)
+                {
+                    jump = 2;
+                    PlayerVector.Y += delta;
+                }
+
+
+                if (!duck && keyboard.IsKeyDown(Keys.Right) && !collideSide((int)(PlayerVector.X + delta), (int)PlayerVector.Y, pHeight, pWidth, "right", lvl))
+                {
+                    faceRight = true;
+                    move = true;
+                    PlayerVector.X += delta;
+                }
+
+                if (!duck && keyboard.IsKeyDown(Keys.Left) && !collideSide((int)(PlayerVector.X - delta), (int)PlayerVector.Y, pHeight, pWidth, "left", lvl))
+                {
+                    faceRight = false;
+                    move = true;
+                    PlayerVector.X -= delta;
+                }
+
+                if (!duck && keyboard.IsKeyDown(Keys.Right) && keyboard.IsKeyDown(Keys.Left))
+                {
+                    move = false;
+                }
+
+                if (check == PlayerVector.Y)//needed to fix cases when peaked jump is interrupted by environment
+                {
                     jumpPeak = false;
+                    jumpAm = 0;
+                }
+
+                spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, -1, faceRight);
             }
-            else
-                jump = 0;
+            if (lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))
+                if (spriteWin.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, 4, true))
+                    currentLevel++;
 
-            // TODO
-            if (!collideSide((int)PlayerVector.X, (int)(PlayerVector.Y + delta), pHeight, pWidth, "bottom", lvl) && jump == 0)
-            {
-                jump = 2;
-                PlayerVector.Y += delta;
-            }
-
-
-            if (!duck && keyboard.IsKeyDown(Keys.Right) && !collideSide((int)(PlayerVector.X + delta), (int)PlayerVector.Y, pHeight, pWidth, "right", lvl))
-            {
-                faceRight = true;
-                move = true;
-                PlayerVector.X += delta;
-            }
-
-            if (!duck && keyboard.IsKeyDown(Keys.Left) && !collideSide((int)(PlayerVector.X - delta), (int)PlayerVector.Y, pHeight, pWidth, "left", lvl))
-            {
-                faceRight = false;
-                move = true;
-                PlayerVector.X -= delta;
-            }
-
-            if (!duck && keyboard.IsKeyDown(Keys.Right) && keyboard.IsKeyDown(Keys.Left))
-            {
-                move = false;
-            }
-
-            if (check == PlayerVector.Y)//needed to fix cases when peaked jump is interrupted by environment
-            {
-                jumpPeak = false;
-                jumpAm = 0;
-            }
-
-            spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, -1, faceRight);
+            if (!playerDead)
+                playerDead = false;
 
             base.Update(gameTime);
         }
@@ -253,29 +278,36 @@ namespace Platform
 
             lvl.draw(spriteBatch);
 
-            if (jump == 1 && faceRight)
-                spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
-                    PlayerOrigin, scale, SpriteEffects.None, 0.5f);
-            else if (jump == 1 && !faceRight)
-                spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
-                    PlayerOrigin, scale, SpriteEffects.FlipHorizontally, 0.5f);
-            else if (jump == 2 && faceRight)
-                spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
-                    PlayerOrigin, scale, SpriteEffects.None, 0.5f);
-            else if (jump == 2 && !faceRight)
-                spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
-                    PlayerOrigin, scale, SpriteEffects.FlipHorizontally, 0.5f);
-            else if (move)
-                spriteWalk.Draw(spriteBatch, scale);
-            else if (duck)
-                spriteBatch.Draw(duckTexture, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
-                    PlayerOrigin, scale, SpriteEffects.None, 0.5f);                
-            else
-                spriteBatch.Draw(stand, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
-                    PlayerOrigin, scale, SpriteEffects.None, 0.5f);
+            if (!playerDead)
+            {
+                if (jump == 1 && faceRight)
+                    spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
+                        PlayerOrigin, scale, SpriteEffects.None, 0.5f);
+                else if (jump == 1 && !faceRight)
+                    spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
+                        PlayerOrigin, scale, SpriteEffects.FlipHorizontally, 0.5f);
+                else if (jump == 2 && faceRight)
+                    spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
+                        PlayerOrigin, scale, SpriteEffects.None, 0.5f);
+                else if (jump == 2 && !faceRight)
+                    spriteBatch.Draw(jumpDown, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
+                        PlayerOrigin, scale, SpriteEffects.FlipHorizontally, 0.5f);
+                else if (move)
+                    spriteWalk.Draw(spriteBatch, scale);
+                else if (duck)
+                    spriteBatch.Draw(duckTexture, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
+                        PlayerOrigin, scale, SpriteEffects.None, 0.5f);
+                else
+                    spriteBatch.Draw(stand, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
+                        PlayerOrigin, scale, SpriteEffects.None, 0.5f);
+            }
 
-            lvl.animateDestructBrick(gameTime);
-            lvl.openExit(gameTime);
+            if (!playerDead && lvl.animateDestructBrick(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y))
+                playerDead = true;
+
+            if(lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))
+                spriteWin.Draw(spriteBatch,scale);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }

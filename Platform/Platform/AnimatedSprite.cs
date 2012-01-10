@@ -20,18 +20,18 @@ namespace Platform
         private int framesPerSec;
         private int numOftimes;
         private bool faceRight;
+        bool timerStart;
+        float passedTime;
 
         public void LoadSprite(Texture2D _texture2D, int _posX, int _posY, int _frameX, int _frameY, int _numFrames, int _frameWidth, int _frameHeight, int _framesPerSec)
         {
             sticks = _texture2D;
             rectangles = new List<Rectangle>();
 
-            rectangles.Add(new Rectangle(_frameX, _frameY, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(_frameX + _frameWidth, _frameY, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(_frameX + 2 * _frameWidth, _frameY, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(_frameX + 3 * _frameWidth, _frameY, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(_frameX + 4 * _frameWidth, _frameY, _frameWidth, _frameHeight));
-            rectangles.Add(new Rectangle(_frameX + 5 * _frameWidth, _frameY, _frameWidth, _frameHeight));
+            for (int i = 0; i < _frameWidth; i++)
+            {
+                rectangles.Add(new Rectangle(_frameX + i * _frameWidth, _frameY, _frameWidth, _frameHeight));
+            }
 
             frameCount = _numFrames;
             framesPerSec = _framesPerSec;
@@ -39,9 +39,10 @@ namespace Platform
             currentFrame = 0;
             totalElapsed = 0;
             numOftimes = 0;
+            passedTime = 0;
             sticksOrigin = new Vector2(_frameWidth / 2, _frameHeight / 2);
             sticksPos = new Vector2(_posX, _posY);
-
+            timerStart = false;
         }
 
         public bool Update(GameTime _gameTime, int _posX, int _posY, int _numTimes, bool _faceRight = false)
@@ -53,7 +54,7 @@ namespace Platform
             {
                 currentFrame++;
                 currentFrame = currentFrame % frameCount;
-                totalElapsed -= timePerFrame;
+                totalElapsed = 0;
             }
 
             if (totalElapsed > timePerFrame && numOftimes < _numTimes)
@@ -66,13 +67,14 @@ namespace Platform
                 else
                 {
                     currentFrame++;
-                    totalElapsed -= timePerFrame;
+                    totalElapsed = 0;
                 }
             }
 
             if (totalElapsed > timePerFrame && numOftimes == _numTimes)
             {
                 currentFrame = frameCount - 1;
+                timerStart = true;
                 return true;
             }
 
@@ -83,6 +85,23 @@ namespace Platform
             }
             faceRight = _faceRight;
 
+            return false;
+        }
+
+        
+        public bool checkTimer(GameTime _gameTime, float totalAmount)
+        {
+            if (timerStart)
+            {
+                float elapsed = (float)_gameTime.ElapsedGameTime.TotalSeconds;
+                passedTime += elapsed;
+                if (passedTime >= totalAmount)
+                {
+                    timerStart = false;
+                    passedTime = 0;
+                    return true;
+                }
+            }
             return false;
         }
 

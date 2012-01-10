@@ -2,22 +2,13 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Sticks.png</Source>
-      <Name>Sticks</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\Sticks.xnb</Output>
-      <Time>2012-01-01T12:37:35.6712484-08:00</Time>
-    </Item>
-    <Item>
       <Source>Stick.png</Source>
       <Name>Stick</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\Stick.xnb</Output>
-      <Time>2012-01-01T12:28:22.7954227-08:00</Time>
+      <Time>2012-01-09T16:09:26.0849216-08:00</Time>
     </Item>
     <Item>
       <Source>StickDuck.png</Source>
@@ -26,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickDuck.xnb</Output>
-      <Time>2012-01-01T12:27:46.0763361-08:00</Time>
+      <Time>2012-01-09T16:09:40.4237417-08:00</Time>
     </Item>
     <Item>
       <Source>StickJumpDown.png</Source>
@@ -35,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickJumpDown.xnb</Output>
-      <Time>2012-01-01T12:31:56.3089964-08:00</Time>
+      <Time>2012-01-09T16:10:35.8379112-08:00</Time>
     </Item>
     <Item>
       <Source>StickJumpUp.png</Source>
@@ -44,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickJumpUp.xnb</Output>
-      <Time>2012-01-01T12:29:37.9997308-08:00</Time>
+      <Time>2012-01-09T16:11:00.537324-08:00</Time>
     </Item>
     <Item>
       <Source>brick.png</Source>
@@ -53,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\brick.xnb</Output>
-      <Time>2012-01-01T16:40:07.3443463-08:00</Time>
+      <Time>2012-01-09T16:20:57.7454823-08:00</Time>
     </Item>
     <Item>
       <Source>blankLevel.png</Source>
@@ -62,7 +53,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\blankLevel.xnb</Output>
-      <Time>2011-12-29T20:58:04.7446214-08:00</Time>
+      <Time>2012-01-02T15:53:30.3364061-08:00</Time>
+    </Item>
+    <Item>
+      <Source>StickAnimation.png</Source>
+      <Name>StickAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickAnimation.xnb</Output>
+      <Time>2012-01-09T16:17:43.1543523-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -77,32 +77,32 @@
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
         <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
         <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
         <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
         <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
         <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-11-11T17:43:48.7397073-08:00</Value>
+        <Value>2011-12-30T14:59:01.9649185-08:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
