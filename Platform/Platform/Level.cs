@@ -11,6 +11,7 @@ namespace Platform
     class Level
     {
         Texture2D brick;
+        Texture2D badGuys;
         SpriteBatch spriteBatch;
         private int brickSize = 20;
         private Color[] singleBrick;
@@ -33,8 +34,9 @@ namespace Platform
         int doorX, doorY;
         AnimatedSprite openDoor;
         AnimatedSprite[,] destructBrickArr;
+        AnimatedSprite[,] badShooters;
 
-        public Level(Texture2D _brick, Texture2D _blank, GraphicsDevice graphicsDevice, SpriteBatch _spriteBatch)
+        public Level(Texture2D _brick, Texture2D _badGuys, Texture2D _blank, GraphicsDevice graphicsDevice, SpriteBatch _spriteBatch)
         {
             spriteBatch = _spriteBatch;
 
@@ -51,6 +53,7 @@ namespace Platform
 
             openDoor = new AnimatedSprite();
 
+            badGuys = _badGuys;
             brick = _brick;
             _brick.GetData<Color>(0, new Rectangle(0, 0, brickSize, brickSize), topDoor, 0, brick2);
             _brick.GetData<Color>(0, new Rectangle(0, brickSize, brickSize, brickSize), botDoor, 0, brick2);
@@ -78,6 +81,7 @@ namespace Platform
             destroyTheseBricks = new bool[levelFile[0].Length, levelFile.Length];
 
             destructBrickArr = new AnimatedSprite[levelFile[0].Length, levelFile.Length];
+            badShooters = new AnimatedSprite[levelFile[0].Length, levelFile.Length];
 
             int x, y, lineY, valueX;// 20 by 20
             x = 0;
@@ -129,6 +133,13 @@ namespace Platform
                         destructBrickArr[valueX, lineY] = new AnimatedSprite();
                         destructBrickArr[valueX, lineY].LoadSprite(brick, x + (brickSize / 2), y + (brickSize / 2), 0, 6 * brickSize, 3, brickSize, brickSize, 15);
                     }
+                    if (value == 'S')
+                    {
+                        collisionCheck[valueX, lineY] = 4;
+                        badShooters[valueX, lineY] = new AnimatedSprite();
+                        badShooters[valueX, lineY].LoadSprite(badGuys, x, y, 0, 0, 7, 50, 100, 12);
+                        
+                    }
                     if (value == 'C')
                     {
                         collisionCheck[valueX, lineY] = 3;
@@ -168,6 +179,11 @@ namespace Platform
             {
                 setBlank(x, y);
                 currentCollectables++;
+                return false;
+            }
+            else if (collisionCheck[hashedX, hashedY] == 4)
+            {
+                //TODO
                 return false;
             }
             else
@@ -213,7 +229,7 @@ namespace Platform
             openDoor.Draw(spriteBatch);
         }
 
-        public bool animateDestructBrick(GameTime _gt, int playerX, int playerY)
+        public bool animateLvlElements(GameTime _gt, int playerX, int playerY)
         {
             bool playerDead = false;
             for (int y = 0; y < destroyTheseBricks.GetLength(1); y++)
@@ -227,11 +243,11 @@ namespace Platform
                             if (destructBrickArr[x, y].checkTimer(_gt, 5))
                             {
                                 collisionCheck[x, y] = 2;
-                                destroyTheseBricks[x,y] = false;
-                                currLvlText.SetData<Color>(0, new Rectangle(x* brickSize, y* brickSize, brickSize, brickSize), destructBrick, 0, contBrick.Length);
+                                destroyTheseBricks[x, y] = false;
+                                currLvlText.SetData<Color>(0, new Rectangle(x * brickSize, y * brickSize, brickSize, brickSize), destructBrick, 0, contBrick.Length);
                                 destructBrickArr[x, y].LoadSprite(brick, x * brickSize + (brickSize / 2), y * brickSize + (brickSize / 2), 0, 6 * brickSize, 3, brickSize, brickSize, 15);
-                              if (playerX - (x * brickSize) < brickSize && playerX - (x * brickSize) >= 0 && playerY - (y * brickSize) < brickSize && playerY - (y * brickSize) >= 0)
-                                  playerDead = true;
+                                if (playerX - (x * brickSize) < brickSize && playerX - (x * brickSize) >= 0 && playerY - (y * brickSize) < brickSize && playerY - (y * brickSize) >= 0)
+                                    playerDead = true;
 
                             }
                         }
@@ -239,8 +255,21 @@ namespace Platform
                             destructBrickArr[x, y].Draw(spriteBatch);
                     }
                 }
+
             if (currentCollectables == totalCollectables)
                 openExit(_gt);
+
+            for (int y = 0; y < badShooters.GetLength(1); y++)
+                for (int x = 0; x < badShooters.GetLength(0); x++)
+                {
+                    if (badShooters[x, y] != null)
+                    {
+                        badShooters[x, y].Update(_gt, -1, -1, -1);
+                        badShooters[x, y].Draw(spriteBatch, .4f);
+                    }
+                }
+
+          
             return playerDead;
         }
 

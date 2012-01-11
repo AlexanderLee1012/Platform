@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\brick.xnb</Output>
-      <Time>2012-01-09T16:20:57.7454823-08:00</Time>
+      <Time>2012-01-09T16:25:01.0113963-08:00</Time>
     </Item>
     <Item>
       <Source>blankLevel.png</Source>
@@ -63,6 +63,15 @@
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickAnimation.xnb</Output>
       <Time>2012-01-09T16:17:43.1543523-08:00</Time>
+    </Item>
+    <Item>
+      <Source>badStickAnimation.png</Source>
+      <Name>badStickAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\badStickAnimation.xnb</Output>
+      <Time>2012-01-10T16:15:28.2092375-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

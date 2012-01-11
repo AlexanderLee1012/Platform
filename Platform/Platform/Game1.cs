@@ -53,7 +53,7 @@ namespace Platform
         private AnimatedSprite spriteWalk;
         private AnimatedSprite spriteWin;
         //------------------------------------------------------------------
-
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -103,11 +103,12 @@ namespace Platform
             stand = Content.Load<Texture2D>("Stick");
             jumpUp = Content.Load<Texture2D>("StickJumpUp");
             jumpDown = Content.Load<Texture2D>("StickJumpDown");
+            Texture2D badGuys = Content.Load<Texture2D>("badStickAnimation");
             
             brick = Content.Load<Texture2D>("brick");
             blankLevel = Content.Load <Texture2D>("blankLevel");
 
-            lvl = new Level(brick, blankLevel, GraphicsDevice, spriteBatch);
+            lvl = new Level(brick, badGuys, blankLevel, GraphicsDevice, spriteBatch);
             // TODO: use this.Content to load your game content here
         }
 
@@ -278,7 +279,7 @@ namespace Platform
 
             lvl.draw(spriteBatch);
 
-            if (!playerDead)
+            if (!playerDead && !lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))
             {
                 if (jump == 1 && faceRight)
                     spriteBatch.Draw(jumpUp, PlayerVector, new Rectangle(0, 0, 50, 100), Color.White, 0,
@@ -302,7 +303,7 @@ namespace Platform
                         PlayerOrigin, scale, SpriteEffects.None, 0.5f);
             }
 
-            if (!playerDead && lvl.animateDestructBrick(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y))
+            if (!playerDead && lvl.animateLvlElements(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y))
                 playerDead = true;
 
             if(lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))

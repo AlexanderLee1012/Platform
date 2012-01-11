@@ -28,3 +28,4 @@ C:\Users\Alexander\Platform\Platform\Platform\obj\x86\Debug\Platform.pdb
 C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\StickAnimation.xnb
 C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\lvl2.txt
 C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\lvl3.txt
+C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\badStickAnimation.xnb
