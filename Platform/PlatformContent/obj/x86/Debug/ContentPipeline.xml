@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\brick.xnb</Output>
-      <Time>2012-01-09T16:25:01.0113963-08:00</Time>
+      <Time>2012-01-12T10:38:55.2920591-08:00</Time>
     </Item>
     <Item>
       <Source>blankLevel.png</Source>
@@ -71,7 +71,25 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\badStickAnimation.xnb</Output>
-      <Time>2012-01-10T16:15:28.2092375-08:00</Time>
+      <Time>2012-01-12T11:20:16.1519562-08:00</Time>
+    </Item>
+    <Item>
+      <Source>GameThumbnail.png</Source>
+      <Name>GameThumbnail</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\GameThumbnail.xnb</Output>
+      <Time>2012-01-12T10:14:07.7469764-08:00</Time>
+    </Item>
+    <Item>
+      <Source>projectile.png</Source>
+      <Name>projectile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Alexander\Platform\Platform\Platform\bin\x86\Debug\Content\projectile.xnb</Output>
+      <Time>2012-01-12T10:42:36.4087063-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

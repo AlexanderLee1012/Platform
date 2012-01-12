@@ -23,7 +23,7 @@ namespace Platform
         bool timerStart;
         float passedTime;
 
-        public void LoadSprite(Texture2D _texture2D, int _posX, int _posY, int _frameX, int _frameY, int _numFrames, int _frameWidth, int _frameHeight, int _framesPerSec)
+        public void LoadSprite(Texture2D _texture2D, int _posX, int _posY, int _frameX, int _frameY, int _numFrames, int _frameWidth, int _frameHeight, int _framesPerSec, bool _faceRight = false)
         {
             sticks = _texture2D;
             rectangles = new List<Rectangle>();
@@ -43,9 +43,15 @@ namespace Platform
             sticksOrigin = new Vector2(_frameWidth / 2, _frameHeight / 2);
             sticksPos = new Vector2(_posX, _posY);
             timerStart = false;
+            faceRight = _faceRight;
         }
 
-        public bool Update(GameTime _gameTime, int _posX, int _posY, int _numTimes, bool _faceRight = false)
+        public bool facingRight()
+        {
+            return faceRight;
+        }
+
+        public bool Update(GameTime _gameTime, int _posX, int _posY, int _numTimes, int _faceRight = 0) //faceRight, 0 is unchanged, 1 is right, 2 is left
         {
             float elapsed = (float)_gameTime.ElapsedGameTime.TotalSeconds;
             totalElapsed += elapsed;
@@ -83,7 +89,13 @@ namespace Platform
                 sticksPos.X = _posX;
                 sticksPos.Y = _posY;
             }
-            faceRight = _faceRight;
+            if (_faceRight != 0)
+            {
+                if (_faceRight == 1)
+                    faceRight = true;
+                else
+                    faceRight = false;
+            }
 
             return false;
         }

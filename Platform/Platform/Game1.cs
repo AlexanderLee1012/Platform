@@ -18,7 +18,7 @@ namespace Platform
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        float scale = 0.35f;
+        float scale = 0.33f;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -103,12 +103,13 @@ namespace Platform
             stand = Content.Load<Texture2D>("Stick");
             jumpUp = Content.Load<Texture2D>("StickJumpUp");
             jumpDown = Content.Load<Texture2D>("StickJumpDown");
+            Texture2D projectile = Content.Load<Texture2D>("projectile");
             Texture2D badGuys = Content.Load<Texture2D>("badStickAnimation");
             
             brick = Content.Load<Texture2D>("brick");
             blankLevel = Content.Load <Texture2D>("blankLevel");
 
-            lvl = new Level(brick, badGuys, blankLevel, GraphicsDevice, spriteBatch);
+            lvl = new Level(brick, badGuys, projectile, blankLevel, GraphicsDevice, spriteBatch);
             // TODO: use this.Content to load your game content here
         }
 
@@ -255,10 +256,18 @@ namespace Platform
                     jumpAm = 0;
                 }
 
-                spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, -1, faceRight);
+                int facing;
+                if (faceRight == true)
+                    facing = 1;
+                else if (faceRight == false)
+                    facing = 2;
+                else
+                    facing = 0;
+
+                spriteWalk.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, -1, facing);
             }
             if (lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))
-                if (spriteWin.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, 4, true))
+                if (spriteWin.Update(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, 4, 1))
                     currentLevel++;
 
             if (!playerDead)
@@ -303,7 +312,7 @@ namespace Platform
                         PlayerOrigin, scale, SpriteEffects.None, 0.5f);
             }
 
-            if (!playerDead && lvl.animateLvlElements(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y))
+            if (!playerDead && lvl.animateLvlElements(gameTime, (int)PlayerVector.X, (int)PlayerVector.Y, pHeight, pWidth, duck))
                 playerDead = true;
 
             if(lvl.checkWin((int)PlayerVector.X, (int)PlayerVector.Y))

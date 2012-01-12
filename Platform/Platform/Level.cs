@@ -8,6 +8,51 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platform
 {
+    class Projectile
+    {
+        Texture2D proj;
+        bool right;
+        float x;
+        float originalX;
+        float y;
+        float originalY;
+
+        public Projectile(float _x, float _y, bool faceRight, Texture2D projectile)
+        {
+            x = _x;
+            y = _y;
+            originalX = x;
+            originalY = y;
+            right = faceRight;
+            proj = projectile;
+        }
+
+        public float bulletX() { return x; }
+        public float bulletY() { return y; }
+
+        public void bulletCollision()
+        {
+            x = originalX;
+            y = originalY;
+        }
+
+        public void updateProjectile()
+        {
+            if (right)
+                x += 3.33f;
+            else
+                x -= 3.33f;
+        }
+
+        public void drawProjectile(SpriteBatch spriteBatch)
+        {
+            if (right)
+                spriteBatch.Draw(proj, new Vector2(x,y), Color.White); 
+            else
+                spriteBatch.Draw(proj, new Vector2(x, y), null, Color.White, 0, new Vector2(1f, 3/2f), 1f, SpriteEffects.FlipHorizontally, 0); 
+        }
+    }
+
     class Level
     {
         Texture2D brick;
@@ -23,6 +68,7 @@ namespace Platform
         private Color[] destructBrick;
         private Color[] collectable;
         private Color[] blankLevel;
+        private Texture2D projectile;
         private Texture2D currLvlText;
         private string[] levelFile;
         private int[,] collisionCheck;
@@ -35,8 +81,9 @@ namespace Platform
         AnimatedSprite openDoor;
         AnimatedSprite[,] destructBrickArr;
         AnimatedSprite[,] badShooters;
+        Projectile[] projectileArr;
 
-        public Level(Texture2D _brick, Texture2D _badGuys, Texture2D _blank, GraphicsDevice graphicsDevice, SpriteBatch _spriteBatch)
+        public Level(Texture2D _brick, Texture2D _badGuys, Texture2D _projectile, Texture2D _blank, GraphicsDevice graphicsDevice, SpriteBatch _spriteBatch)
         {
             spriteBatch = _spriteBatch;
 
@@ -53,6 +100,7 @@ namespace Platform
 
             openDoor = new AnimatedSprite();
 
+            projectile = _projectile;
             badGuys = _badGuys;
             brick = _brick;
             _brick.GetData<Color>(0, new Rectangle(0, 0, brickSize, brickSize), topDoor, 0, brick2);
@@ -75,6 +123,7 @@ namespace Platform
             currLvlText.SetData<Color>(blankLevel);
 
             Vector2 PlayerVector = new Vector2();
+            projectileArr = new Projectile[50];//arbitrary value
             isDoorOpen = false;
             levelFile = File.ReadAllLines(FileName);
             collisionCheck = new int[levelFile[0].Length,levelFile.Length];
@@ -83,11 +132,12 @@ namespace Platform
             destructBrickArr = new AnimatedSprite[levelFile[0].Length, levelFile.Length];
             badShooters = new AnimatedSprite[levelFile[0].Length, levelFile.Length];
 
-            int x, y, lineY, valueX;// 20 by 20
+            int x, y, lineY, valueX, currProjectile;// 20 by 20
             x = 0;
             y = 0;
             lineY = 0;
             valueX = 0;
+            currProjectile = 0;
 
             foreach (string line in levelFile)
             {
@@ -133,12 +183,23 @@ namespace Platform
                         destructBrickArr[valueX, lineY] = new AnimatedSprite();
                         destructBrickArr[valueX, lineY].LoadSprite(brick, x + (brickSize / 2), y + (brickSize / 2), 0, 6 * brickSize, 3, brickSize, brickSize, 15);
                     }
-                    if (value == 'S')
+                    if (value == '>')//shooter facing right
                     {
                         collisionCheck[valueX, lineY] = 4;
+                        collisionCheck[valueX, lineY - 1] = 4;
                         badShooters[valueX, lineY] = new AnimatedSprite();
-                        badShooters[valueX, lineY].LoadSprite(badGuys, x, y, 0, 0, 7, 50, 100, 12);
-                        
+                        badShooters[valueX, lineY].LoadSprite(badGuys, x + brickSize/2, y, 0, 0, 7, 50, 100, 9, true);
+                        projectileArr[currProjectile] = new Projectile(x, y, true, projectile);
+                        currProjectile++;
+                    }
+                    if (value == '<')
+                    {
+                        collisionCheck[valueX, lineY] = 4;
+                        collisionCheck[valueX, lineY - 1] = 4;
+                        badShooters[valueX, lineY] = new AnimatedSprite();
+                        badShooters[valueX, lineY].LoadSprite(badGuys, x + brickSize / 2, y, 0, 0, 7, 50, 100, 9, false);
+                        projectileArr[currProjectile] = new Projectile(x, y, false, projectile);
+                        currProjectile++;
                     }
                     if (value == 'C')
                     {
@@ -164,7 +225,7 @@ namespace Platform
             return PlayerVector;
         }
 
-        public bool checkCollision(int x, int y)
+        public bool checkCollision(int x, int y, bool bullet = false)
         {   //need to convert 800 by 480 to scale with 40 by 24
             int hashedX = x / brickSize;
             int hashedY = y / brickSize;
@@ -172,25 +233,54 @@ namespace Platform
                 return true;
             else if (collisionCheck[hashedX, hashedY] == 2)
             {
-                destroyCurrBlock(x, y);
+                if (bullet == false)
+                    destroyCurrBlock(x, y);
                 return true;
             }
             else if (collisionCheck[hashedX, hashedY] == 3)
             {
-                setBlank(x, y);
-                currentCollectables++;
+                if (bullet == false)
+                {
+                    setBlank(x, y);
+                    currentCollectables++;
+                }
                 return false;
             }
             else if (collisionCheck[hashedX, hashedY] == 4)
             {
                 //TODO
-                return false;
+                return true;
             }
             else
                 return false;
         }
 
-        
+        public int bulletCollisionPlayer(int playerX, int playerY, int pHeight, int pWidth, bool duck, Projectile bullet)
+        {
+            int projX = (int)bullet.bulletX();
+            int projY = (int)bullet.bulletY();
+            if (checkCollision(projX, projY, true))
+            {
+                bullet.bulletCollision();
+                return 0;
+            }
+            else if (projX > playerX - pWidth/2 && projX < playerX + pWidth/2)
+            {
+                if (duck)
+                    if (projY < playerY + pHeight / 2 && projY > playerY)
+                        return 1;
+                    else
+                        return 0;
+                else
+                    if (projY < playerY + pHeight / 2 && projY > playerY - pHeight / 2)
+                        return 1;
+                    else
+                        return 0;                    
+            }
+            else
+                return 0;
+        }
+
         public bool checkWin(int playerX, int playerY)
         {
             Rectangle door = new Rectangle(doorX, doorY, brickSize, brickSize * 2);
@@ -229,7 +319,7 @@ namespace Platform
             openDoor.Draw(spriteBatch);
         }
 
-        public bool animateLvlElements(GameTime _gt, int playerX, int playerY)
+        public bool animateLvlElements(GameTime _gt, int playerX, int playerY, int pHeight, int pWidth, bool duck)
         {
             bool playerDead = false;
             for (int y = 0; y < destroyTheseBricks.GetLength(1); y++)
@@ -269,10 +359,20 @@ namespace Platform
                     }
                 }
 
+            int playerIsDead = 0;
+            for (int i = 0; i < 50; i++)
+                if (projectileArr[i] != null)
+                {
+                    playerIsDead += bulletCollisionPlayer(playerX, playerY, pHeight, pWidth, duck, projectileArr[i]);
+                    projectileArr[i].updateProjectile();
+                    projectileArr[i].drawProjectile(spriteBatch);
+                }
+            if (playerIsDead > 0)
+                playerDead = true;
           
             return playerDead;
         }
-
+        
         public void draw(SpriteBatch _spriteBatch)
         {
             _spriteBatch.Draw(currLvlText, new Rectangle(0, 0, GraphicsDeviceManager.DefaultBackBufferWidth, GraphicsDeviceManager.DefaultBackBufferHeight), Color.White);
